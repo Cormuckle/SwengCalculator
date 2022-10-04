@@ -4,6 +4,7 @@ from __future__ import annotations
 # Add suport for unary operators
 # Update README 
 # Update tests 
+# Add instructions on how to use the calculator
 # Resolve all #TODO in file 
 
 from collections import deque
@@ -94,18 +95,20 @@ def calc(tokens: str) -> list[Result, str]:
         i += 1
 
     while op_stack and num_stack:
+        if op_stack[-1] == '(':
+            return Result.ERROR, f"Missing ) in expression."
         op = op_stack.pop()
-        right = num_stack.pop()
-        if num_stack:
+        if len(num_stack) >= 2:
+            right = num_stack.pop()
             left = num_stack.pop()
             num_stack.append(apply_op(left, right, op))
         else:
-            return Result.ERROR, f"Missing operand in expression."
+            return Result.ERROR, f"Unexpected {op} in expression."
 
     if len(num_stack) > 1:
         return Result.ERROR, f"Missing operator in expression."
     if not num_stack:
-        return Result.ERROR, f"Missing ) in expression."
+        return Result.ERROR, f"No integers in expression."
 
     return Result.SUCCESS, str(num_stack.pop())
 
