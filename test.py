@@ -6,7 +6,6 @@ def test_simple_expr():
     assert calc("3 * 0 + 1") == (Result.SUCCESS, '1')   
 
 def test_complex_expr():   
-    # expr = "1 * 2 + 4 * 2 * 2 - 7 * 3 * 4 - 1 + 333 - 246 + 1738 * -1 - 2"
     expr = "1 * 2 + 4 * 2 * 2 - 7 * 3 * 4 - 1 + 333 - 246 + 1738 * 1 - 2"
     assert (Result.SUCCESS, str(eval(expr))) == calc(expr)
 
@@ -30,6 +29,6 @@ def test_no_space():
 def test_single_integer():
     assert calc("1") == (Result.SUCCESS, '1')
     assert calc("-1") == (Result.SUCCESS, '-1')
-    assert calc("(-1)") == (Result.SUCCESS, '-1')
+    assert calc("(-1)") == (Result.ERROR, "Unary operators are not supported.")
     assert calc("-123") == (Result.SUCCESS, '-123')
     assert calc("123") == (Result.SUCCESS, '123')

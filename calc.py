@@ -121,10 +121,13 @@ def calc(tokens: str) -> list[Result, str]:
             op_stack.append(token)
         elif token == ')':
             while op_stack and op_stack[-1] != '(':
-                right = num_stack.pop()
-                left = num_stack.pop()
-                op = op_stack.pop()
-                num_stack.append(apply_op(left, right, op))
+                if len(num_stack) >= 2:
+                    right = num_stack.pop()
+                    left = num_stack.pop()
+                    op = op_stack.pop()
+                    num_stack.append(apply_op(left, right, op))
+                else:
+                    return Result.ERROR, "Unary operators are not supported."
             if op_stack:
                 op_stack.pop()
             else:
