@@ -1,16 +1,8 @@
 from __future__ import annotations
 
-# TODO:
-# Add suport for unary operators
-# Update README 
-# Update tests 
-# Add instructions on how to use the calculator
-# Resolve all #TODO in file 
-
 from collections import deque
 from enum import Enum, auto
 from operator import add, sub, mul
-from os import remove
 
 class Result(Enum):
     ERROR = auto()
@@ -32,7 +24,6 @@ operators =  {
 digits = set([str(x) for x in range(10)])
 
 def log_error(error_msg):
-    # TODO: Use logger
     print(error_msg)
 
 def is_digit(value):
@@ -48,7 +39,6 @@ def apply_op(left, right, operator):
     return operators[operator](left, right)
 
 def log_result(value, expr):
-    # TODO: Use logger
     print(f"{expr} = {value}")
 
 
@@ -90,7 +80,7 @@ def check_validity(expression):
     #otherwise the expression is valid
     return True
 
-def calc(tokens: str) -> list[Result, str]:
+def calc(tokens: str) -> tuple[Result, str]:
     num_stack = deque()
     op_stack = deque()
     i = 0
