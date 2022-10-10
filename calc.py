@@ -10,6 +10,7 @@ from __future__ import annotations
 from collections import deque
 from enum import Enum, auto
 from operator import add, sub, mul
+from os import remove
 
 class Result(Enum):
     ERROR = auto()
@@ -50,10 +51,49 @@ def log_result(value, expr):
     # TODO: Use logger
     print(f"{expr} = {value}")
 
+
+# counts the number of spaces in the expression then runs expression.remove(" ") that many times to remove all the spaces
+def remove_spaces(expression):
+    i = 0
+    c = expression.count(" ")
+    while i < c:
+        expression.remove(" ")
+        i+= 1
+    return expression
+
+#checks through list for any invalid tokens and returns false if it finds any
+def check_tokens(expression):
+    i = 0
+    while i < len(expression):
+        if is_digit(expression[i]) or is_operator(expression[i]) or expression[i] == "(" or expression == ")":
+            return False
+        i+=1
+    return True
+
+#contains logic for all the scenarios where an expression would not be valid
+def check_validity(expression):
+    i =0 
+    while i < len(expression)-1:
+        # Cases: two operators next to one another "+-", opening parenthesis followed by an operator "(+", number followed by opening parenthesis"12(", closing parenthesis followed by digit ")12", operator followed by closing parenthesis "+)"
+        if (is_operator(expression[i]) and is_operator(expression[i+1])) or  (expression[i] == "(" and is_operator(expression[i+1]) ) or (is_digit(expression[i]) and expression[i+1] == "(") or (expression[i] == ")" and is_digit(expression[i+1]) )or (is_operator(expression[i]) and expression[i+1] == ")"):   
+            return False
+        i += 1
+    # if the first or last char in the expression is an operator then the expression is not valid
+    if is_operator(expression[len(expression)-1]) or is_operator(expression[0]):
+       return False
+    #otherwise the expression is valid
+    return True
+
 def calc(tokens: str) -> list[Result, str]:
     num_stack = deque()
     op_stack = deque()
     i = 0
+
+    tokens = remove_spaces(tokens)
+    if not check_tokens(tokens):
+        return Result.ERROR, "invalid tokens used"
+    if not check_validity(tokens):
+        return Result.ERROR, "invalid input"
 
     while i < len(tokens):
         token = tokens[i]
