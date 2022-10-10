@@ -12,8 +12,8 @@ def test_complex_expr():
 
 def test_unexpected_or_extra_parenthesis():
     assert calc("1+2 * (4+5))") == (Result.ERROR, "invalid input") 
-    assert calc("1+2 * )(4+5))") == (Result.ERROR, "Unexpected ')' in expression.")
-    assert calc("1+2 * (4+5") == (Result.ERROR, "Missing ) in expression.")
+    assert calc("1+2 )((4+5)") == (Result.ERROR, "Unexpected ')' in expression.")
+    assert calc("1+2 * (4+5") == (Result.ERROR, "invalid input")
 
 def test_invalid_tokens():
     assert calc("penguin") == (Result.ERROR, "invalid tokens used")
@@ -30,7 +30,6 @@ def test_no_space():
 def test_single_integer():
     assert calc("1") == (Result.SUCCESS, '1')
     assert calc("-1") == (Result.SUCCESS, '-1')
-    assert calc("(1)") == (Result.SUCCESS, '1')
     assert calc("(-1)") == (Result.SUCCESS, '-1')
     assert calc("-123") == (Result.SUCCESS, '-123')
     assert calc("123") == (Result.SUCCESS, '123')
