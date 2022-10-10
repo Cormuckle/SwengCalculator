@@ -10,7 +10,7 @@ def test_complex_expr():
     expr = "1 * 2 + 4 * 2 * 2 - 7 * 3 * 4 - 1 + 333 - 246 + 1738 * 1 - 2"
     assert (Result.SUCCESS, str(eval(expr))) == calc(expr)
 
- def test_unexpected_or_extra_parenthesis():
+def test_unexpected_or_extra_parenthesis():
     assert calc("1+2 * (4+5))") == (Result.ERROR, "invalid input") 
     assert calc("1+2 * )(4+5))") == (Result.ERROR, "Unexpected ')' in expression.")
     assert calc("1+2 * (4+5") == (Result.ERROR, "Missing ) in expression.")
