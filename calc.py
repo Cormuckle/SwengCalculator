@@ -81,6 +81,16 @@ def check_validity(expression):
     # if the first or last char in the expression is an operator then the expression is not valid
     if is_operator(expression[len(expression)-1]) or is_operator(expression[0]):
        return False
+    i = 0
+    count = 0
+    while i<len(expression):
+        if expression[i] == "(":
+            count+=1
+        if expression[i] == ")":
+            count-=1
+        i+= 1
+    if count != 0:
+        return False
     #otherwise the expression is valid
     return True
 
